@@ -26,7 +26,7 @@ class Tags(Cog):
 
         else:
             embed = discord.Embed(
-                color=ctx.author.color, description="To create/edit a tag use `-tag set <tag name>`\nTo delete a tag use `-tag delete <tag name>`\nTo get a tag use `-tag <tag name>`")
+                color=ctx.author.color, description="To create/edit a tag use `-tag set <tag name>`\nTo delete a tag use `-tag delete <tag name>`\nTo get a tag use `-tag <tag name>`\nWant to submit a tag? Use `-tag submit <tag name>`")
             await ctx.send(embed=embed)
 
     @tag.command()
@@ -69,6 +69,24 @@ class Tags(Cog):
         embed = discord.Embed(color=ctx.author.color,
                               description="Deleted tag!")
         await ctx.send(embed=embed)
+
+    @tag.command()
+    async def submit(self, ctx, *, arg):
+        await ctx.send(f"What do you want to set as an answer for '**{arg}**'")
+
+        def check(msg):
+            return msg.author == ctx.author and msg.channel == ctx.channel
+
+        response = await self.bot.wait_for("message", check=check)
+        res = response.content
+
+        channel = self.bot.get_channel(861125389749452811)
+
+        embed = discord.Embed(color=ctx.author.color, title="Tag submit!")
+        embed.add_field(name=arg, value=res)
+        embed.set_footer(text=f"Submitted by {ctx.author} ({ctx.author.id})")
+        await channel.send(embed=embed)
+        await ctx.send(f"{ctx.author.mention}, your tag has been submitted!")
 
 
 def setup(bot):
