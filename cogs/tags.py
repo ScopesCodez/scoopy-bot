@@ -52,6 +52,24 @@ class Tags(Cog):
         embed.add_field(name=arg, value=res)
         await ctx.send(embed=embed)
 
+    @tag.command()
+    @commands.has_permissions(manage_messages=True)
+    async def delete(self, ctx, *, arg):
+        with open("tags.json", "r") as f:
+            load = json.load(f)
+
+        try:
+            load[arg]
+            load.pop(arg)
+            with open("tags.json", "w") as f:
+                json.dump(load, f, indent=4)
+        except KeyError:
+            return await ctx.send("No tag found with the given arguments")
+
+        embed = discord.Embed(color=ctx.author.color,
+                              description="Deleted tag!")
+        await ctx.send(embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Tags(bot))
