@@ -1,1 +1,3 @@
-{}
+{
+    "how to host my bot": "You can host your bot on your local computer by going to command prompt and targeting the bot's directory using the `cd` command (or your IDE's terminal) and typing the appropriate command to what language you are using. Example : `python filename.py` to run a python file - `node filename.js` to run a NodeJS (JavaScript) file.\n\n**__OR__**\nYou can use a hosting service that can keep your bot online 24/7. We recommend [Sweplox.net](https://client.sweplox.net 'Sweplox's Client Panel') and [Krag.host](https://krag.host 'Krag.host home page')"
+}
