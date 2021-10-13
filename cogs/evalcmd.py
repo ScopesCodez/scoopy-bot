@@ -1,12 +1,10 @@
 import discord
-import discord
 from discord.ext import commands
 from traceback import format_exception
 import io
 import textwrap
 import contextlib
 from discord.ext.buttons import Paginator
-
 
 class Pag(Paginator):
     async def teardown(self):
@@ -15,16 +13,13 @@ class Pag(Paginator):
         except discord.HTTPException:
             pass
 
-
 def clean_code(content):
     if content.startswith("```") and content.endswith("```"):
         return "\n".join(content.split("\n")[1:])[:-3]
     else:
         return content
 
-
 class EvalCMD(commands.Cog):
-
     def __init__(self, bot):
         self.bot = bot
 
@@ -73,7 +68,6 @@ class EvalCMD(commands.Cog):
         embed = discord.Embed(color=discord.Color.red(),
                               description="You need the role **eval perms** to use the eval command.")
         await ctx.send(embed=embed)
-
 
 def setup(bot):
     bot.add_cog(EvalCMD(bot))
