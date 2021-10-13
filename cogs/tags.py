@@ -3,15 +3,13 @@ from discord.ext.commands import command, Cog, group
 from discord.ext import commands
 import json
 
-
 class Tags(Cog):
-
     def __init__(self, bot):
         self.bot = bot
 
     @group(invoke_without_command=True)
     async def tag(self, ctx, *, arg=None):
-        if arg != None:
+        if arg is not None:
             with open("tags.json", "r") as f:
                 load = json.load(f)
 
@@ -23,7 +21,6 @@ class Tags(Cog):
             embed = discord.Embed(color=ctx.author.color,
                                   title=f"{arg}", description=result)
             await ctx.send(embed=embed)
-
         else:
             embed = discord.Embed(
                 color=ctx.author.color, description="To create/edit a tag use `-tag set <tag name>`\nTo delete a tag use `-tag delete <tag name>`\nTo get a tag use `-tag <tag name>`\nWant to submit a tag? Use `-tag submit <tag name>`")
@@ -37,10 +34,7 @@ class Tags(Cog):
 
         await ctx.send(f"What do you want to set as an answer for '**{arg}**'")
 
-        def check(msg):
-            return msg.author == ctx.author and msg.channel == ctx.channel
-
-        response = await self.bot.wait_for("message", check=check)
+        response = await self.bot.wait_for("message", check=lambda msg: msg.author == ctx.author and msg.channel == ctx.channel)
         res = response.content
 
         load[arg] = res
@@ -59,7 +53,6 @@ class Tags(Cog):
             load = json.load(f)
 
         try:
-            load[arg]
             load.pop(arg)
             with open("tags.json", "w") as f:
                 json.dump(load, f, indent=4)
@@ -74,10 +67,7 @@ class Tags(Cog):
     async def submit(self, ctx, *, arg):
         await ctx.send(f"What do you want to set as an answer for '**{arg}**'")
 
-        def check(msg):
-            return msg.author == ctx.author and msg.channel == ctx.channel
-
-        response = await self.bot.wait_for("message", check=check)
+        response = await self.bot.wait_for("message", check=lambda msg: msg.author == ctx.author and msg.channel == ctx.channel)
         res = response.content
 
         channel = self.bot.get_channel(861125389749452811)
